@@ -22,6 +22,7 @@ import { ContactComponent } from './contact/contact.component';
 
 import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
+import { LeaderService } from './services/leader.service'
 
 import { AppRoutingModule } from './app-routing/app-routing.module';
 import { P } from '@angular/core/src/render3';
@@ -49,7 +50,8 @@ import { P } from '@angular/core/src/render3';
   ],
   providers: [
     DishService,
-    PromotionService
+    PromotionService,
+    LeaderService
   ],
   bootstrap: [AppComponent]
 })
