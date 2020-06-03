@@ -34,6 +34,7 @@
       </mat-card>
     </div>
   </div>
+  
   <div fxFlex [hidden]="dish">
     <mat-spinner></mat-spinner><h4>Loading . . . Please Wait</h4>
   </div>
@@ -50,15 +51,73 @@
         <mat-grid-list cols="1" rowHeight="125px" *ngFor="let comment of dish.comments">
           <p>{{comment.comment}}<br>
             {{comment.rating}} Stars <br>
-            --{{comment.author}} {{comment.date |date}}</p>
+            --{{comment.author}} 
+            {{comment.date |date}}</p>
            
         </mat-grid-list>
         
+        <div *ngIf="feedbackForm.valid">
+          {{feedbackForm.value.comment}}<br>
+          {{feedbackForm.value.rating}} Stars <br>
+          --{{feedbackForm.value.author}} 
+          <!-- {{feedbackForm.value.date |date}} -->
+        </div>
+
+     
+        <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+          <p>
+            <mat-form-field class="half-width">
+              <input matInput formControlName="author" placeholder="Name" type="text" required>
+              <mat-error *ngIf="formErrors.author">
+                {{ formErrors.author }}
+              </mat-error>
+            </mat-form-field>
+        </p>
+
+        <p>
+          <mat-slider
+            thumbLabel
+            formControlName="rating"
+            [displayWith]="rating"
+            tickInterval="1"
+            min="1"
+            max="5"
+            value="5">
+          </mat-slider>
+            
+        </p>
+
+        <p>
+          <mat-form-field class="full-width">
+            <textarea matInput formControlName="comment" placeholder="Your Comments" rows=12 required></textarea>
+            <mat-error *ngIf="formErrors.comment">
+              {{ formErrors.comment }}
+            </mat-error>
+              
+          </mat-form-field>
+        </p>
+
+        <button type="submit" mat-button class="background-primary text-floral-white"
+        [disabled]="feedbackForm.invalid">Submit</button>
+
+        </form>
       </mat-card-content>
       </mat-card>
     </div>
   </div>
   
+  <!-- <div fxFlex="20" *ngIf="dish" >
+    <h2>Your Comments</h2>
+    <form novalidate [formGroup]="feedbackForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="half-width">
+        <input matInput formControlName="author" placeholder="Author" type="Name" required>
+        <mat-error *ngIf="formErrors.firstname">
+          {{ formErrors.firstname }}
+        </mat-error>
+      </mat-form-field>  
+    </form>
+  </div>
+   -->
  
 
 <!-- This code is the one sir is using -->
