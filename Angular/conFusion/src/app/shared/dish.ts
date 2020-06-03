@@ -2,8 +2,8 @@ import { Comment } from './comment';
 import { from } from "rxjs";
 
 export class Dish{
-    id:String;
-    name:String;
+    id:string;
+    name:string;
     image: string;
     category: string;
     featured: boolean;
