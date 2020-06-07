@@ -136,8 +136,9 @@ export class DishdetailComponent implements OnInit {
 
     const date = new  Date();
     this.comment.date = date.toISOString();
-
+    
     this.dishcopy.comments.push(this.comment);
+    
     this.dishService.putDish(this.dishcopy)
     .subscribe(dish =>{
       this.dish=this.dish; this.dishcopy = dish;

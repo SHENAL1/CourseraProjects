@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
-import { flyInOut } from '../animations/app.animation';
+import { FeedbackService } from '../services/feedback.service';
+import { visibility, flyInOut, expand } from '../animations/app.animation';
 import { from } from 'rxjs';
 
 @Component({
@@ -14,15 +15,20 @@ import { from } from 'rxjs';
     'style': 'display: block;'
     },
     animations: [
-      flyInOut()
+      visibility(),
+      flyInOut(),
+      expand()
     ]
 })
 export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  errMess : string;
   contactType = ContactType;
   @ViewChild('fform') feedbackFormDirective;
+
+  spinnerVisibility = false;
 
   formErrors = {
     'firstname': '',
@@ -52,7 +58,8 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder,
+    private feedbackService : FeedbackService) {
     this.createForm();
    }
 
@@ -98,8 +105,32 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
+    //this.spinnerVisibility =true;
+
     this.feedback = this.feedbackForm.value;
-    console.log(this.feedback);
+
+    this.feedbackService.submitFeedback(this.feedback)
+    .subscribe(feedback =>{
+
+      this.spinnerVisibility =false;
+      this.feedback = this.feedback; this.feedback=feedback;
+      
+      console.log(this.feedback);
+      setTimeout(() => this.feedback = null, 5000);
+  
+      
+    },
+    errmess => {this.feedback = null; this.feedback =<any>errmess});
+    this.spinnerVisibility =true;
+
+    // this.feedbackService.submitFeedback(this.feedback)
+    // .subscribe(feedback =>{
+    //   this.feedback = this.feedback; this.feedback=feedback;
+    //   console.log(this.feedback);
+    // },
+    // errmess => {this.feedback = null; this.feedback =<any>errmess})
+
+    
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
