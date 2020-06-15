@@ -10,13 +10,13 @@ dishRouter.use(bodyParser.json());
 
 dishRouter.route('/')
 .get((req, res, next) => {
-  Dishes.find({})
-  .then((dishes) => {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json');
-      res.json(dishes);
-  }, (err) => next(err))
-  .catch((err) => next(err));
+    Dishes.find({})
+    .then((dishes) => {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json');
+        res.json(dishes);
+    }, (err) => next(err))
+    .catch((err) => next(err));
   })
   
 .post((req, res, next) => {
